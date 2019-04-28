@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {      
+        $("#insert").click(function() {
+            var nama = $("#nama").val();
+            var lahir = $("#lahir").val();
+            var kelamin = $("#kelamin").val();
+            var alamat = $("#alamat").val();
+            var pekerjaan = $("#pekerjaan").val();
+            var dataString = "nama=" + nama + "&lahir=" + lahir + "&kelamin=" + kelamin +  "&alamat=" + alamat + "&pekerjaan=" + pekerjaan +  "&insert=";
+            if ($.trim(nama).length > 0 & $.trim(lahir).length > 0 & $.trim(kelamin).length > 0 & $.trim(alamat).length > 0 & $.trim(pekerjaan).length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "https://caudate-navy.000webhostapp.com/cordova-testing/www/insert.php",
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    beforeSend: function() {
+                        $("#insert").val('Loading...');
+                    },
+                    success: function(data) {
+                        if (data == "success") {
+                            alert("Data Sudah Masuk");
+                            $("#insert").val('submit');
+                        } else if (data == "error") {
+                            alert("error");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">       
+        <h1 class="title">Masukan Data Diri</h1>
+        <a class="button button-clear" href="readjson.html">Lihat Data</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <input type="hidden" id="id" value="" />
+        <div class="item">
+            <label>Nama</label>
+            <input type="text" id="nama" value="" />
+        </div>
+        <div class="item"> 
+            <label>Tgl Lahir</label>
+            <input type="text" id="lahir" value="" />
+        </div>
+        <div class="item">
+            <label>Jenis Kelamin</label>
+            <input type="text" id="kelamin" value="" />
+        </div>
+        <div class="item">
+            <label>Alamat</label>
+            <input type="text" id="alamat" value="" />
+        </div>
+        <div class="item">
+            <label>Pekerjaan</label>
+            <input type="text" id="pekerjaan" value="" />
+        </div>
+        <div class="item">
+            <input type="button" id="insert" class="button button-block" value="Masukan" />
+        </div>
+    </div>
+</body>
+
+</html>

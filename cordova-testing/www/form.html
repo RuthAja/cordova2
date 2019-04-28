@@ -1,0 +1,113 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var id = decodeURI(getUrlVars()["id"]);
+        var nama = decodeURI(getUrlVars()["nama"]);
+        var lahir = decodeURI(getUrlVars()["lahir"]);
+        var kelamin = decodeURI(getUrlVars()["kelamin"]);
+        var alamat = decodeURI(getUrlVars()["alamat"]);
+        var pekerjaan= decodeURI(getUrlVars()["pekerjaan"]);
+        $("#id").val(id);
+        $("#nama").val(nama);
+        $("#lahir").val(lahir);
+        $("#kelamin").val(kelamin);
+        $("#alamat").val(alamat);
+        $("#pekerjaan").val(pekerjaan);
+        $("#update").click(function() {
+            var id = $("#id").val();
+            var nama = $("#nama").val();
+            var lahir = $("#lahir").val();
+            var kelamin = $("#kelamin").val();
+            var alamat = $("#alamat").val();
+            var pekerjaan = $("#pekerjaan").val();
+            var dataString = "id=" + id + "&nama=" + nama + "&lahir=" + lahir + "&kelamin=" + kelamin +  "&alamat=" + alamat + "&pekerjaan=" + pekerjaan +"&update=";
+            $.ajax({
+                type: "POST",
+                url: "https://caudate-navy.000webhostapp.com/cordova-testing/www/update.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Updated");
+                        $("#update").val("Data Diperbarui");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+            var id = $("#id").val();
+            var dataString = "id=" + id + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "https://caudate-navy.000webhostapp.com/cordova-testing/www/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Data Terhapus");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Database</h1>
+        <a class="button button-clear" href="readjson.html">Lihat Data</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <input type="hidden" id="id" value="" />
+        <div class="item">
+            <label>Nama</label>
+            <input type="text" id="nama" value="" />
+        </div>
+        <div class="item">
+            <label>Tgl Lahir</label>
+            <input type="text" id="lahir" value="" />
+        </div>
+        <div class="item">
+            <label>Jenis Kelamin</label>
+            <input type="text" id="kelamin" value="" />
+        </div>
+        <div class="item">
+            <label>Alamat</label>
+            <input type="text" id="alamat" value="" />
+        </div>
+        <div class="item">
+            <label>Pekerjaan</label>
+            <input type="text" id="pekerjaan" value="" />
+        </div>
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Perbaru Data" />
+            <input type="button" id="delete" class="button button-block" value="Hapus Data" />
+        </div>
+    </div>
+</body>
+
+</html>
